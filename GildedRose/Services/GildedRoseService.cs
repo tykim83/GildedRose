@@ -17,46 +17,24 @@ public class GildedRoseService
     {
         foreach (Item item in _items)
         {
-            switch (item.Name)
-            {
-                case "Aged Brie":
-                    item.AdjustQuality(1);
-                    break;
-                case "Sulfuras, Hand of Ragnaros":
-                    continue;
-                case "Backstage passes to a TAFKAL80ETC concert":
-                    item.AdjustQuality(1);
-                    if (item.SellIn < 11) item.AdjustQuality(1);
-                    if (item.SellIn < 6) item.AdjustQuality(1);
-                    break;
-                case "Conjured Mana Cake":
-                    item.AdjustQuality(-2);
-                    break;
-                default:
-                    item.AdjustQuality(-1);
-                    break;
-            }
+            // Skip when Item is Sulfuras, Hand of Ragnaros
+            if (item.Name == "Sulfuras, Hand of Ragnaros")
+                continue;
 
-            if (item.Name != "Sulfuras, Hand of Ragnaros")
-                item.ReduceSellIn();
+            // Reduce SellIn
+            item.ReduceSellIn();
 
-            switch (item.Name)
+            // Calculate the change in Quality
+            int qualityChange = item.Name switch
             {
-                case "Aged Brie":
-                    if (item.IsExpired()) item.AdjustQuality(1);
-                    break;
-                case "Sulfuras, Hand of Ragnaros":
-                    continue;
-                case "Backstage passes to a TAFKAL80ETC concert":
-                    if (item.IsExpired()) item.AdjustQuality(-item.Quality);
-                    break;
-                case "Conjured Mana Cake":
-                    if (item.IsExpired()) item.AdjustQuality(-2);
-                    break;
-                default:
-                    if (item.IsExpired()) item.AdjustQuality(-1);
-                    break;
-            }
+                "Aged Brie" => item.IsExpired() ? 2 : 1,
+                "Backstage passes to a TAFKAL80ETC concert" => item.IsExpired() ? -item.Quality : (item.SellIn < 5 ? 3 : item.SellIn < 10 ? 2 : 1),
+                "Conjured Mana Cake" => item.IsExpired() ? -4 : -2,
+                _ => item.IsExpired() ? -2 : -1
+            };
+
+            // Apply the calculated Quality change
+            item.AdjustQuality(qualityChange);
         }
     }
 }
