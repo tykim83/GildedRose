@@ -1,9 +1,10 @@
 ﻿using FluentAssertions;
-using GildedRoseKata;
+using GildedRose.Models;
+using GildedRose.Services;
 using System.Collections.Generic;
 using Xunit;
 
-namespace GildedRoseTests;
+namespace GildedRoseTests.Services;
 
 public class GildedRoseTests
 {
@@ -21,7 +22,7 @@ public class GildedRoseTests
     {
         // Arrange
         var agedBrie = new Item { Name = name, SellIn = sellIn, Quality = quality };
-        var app = new GildedRose(new List<Item> { agedBrie });
+        var app = new GildedRoseService(new List<Item> { agedBrie });
 
         // Act
         app.UpdateQuality();
@@ -43,7 +44,7 @@ public class GildedRoseTests
     {
         // Arrange
         var sulfuras = new Item { Name = name, SellIn = sellIn, Quality = quality };
-        var app = new GildedRose(new List<Item> { sulfuras });
+        var app = new GildedRoseService(new List<Item> { sulfuras });
 
         // Act
         app.UpdateQuality();
@@ -68,7 +69,7 @@ public class GildedRoseTests
     {
         // Arrange
         var backstagePass = new Item { Name = name, SellIn = sellIn, Quality = quality };
-        var app = new GildedRose(new List<Item> { backstagePass });
+        var app = new GildedRoseService(new List<Item> { backstagePass });
 
         // Act
         app.UpdateQuality();
@@ -91,7 +92,7 @@ public class GildedRoseTests
     {
         // Arrange
         var conjuredItem = new Item { Name = name, SellIn = sellIn, Quality = quality };
-        var app = new GildedRose(new List<Item> { conjuredItem });
+        var app = new GildedRoseService(new List<Item> { conjuredItem });
 
         // Act
         app.UpdateQuality();
@@ -114,7 +115,7 @@ public class GildedRoseTests
     {
         // Arrange
         var normalItem = new Item { Name = name, SellIn = sellIn, Quality = quality };
-        var app = new GildedRose(new List<Item> { normalItem });
+        var app = new GildedRoseService(new List<Item> { normalItem });
 
         // Act
         app.UpdateQuality();
@@ -124,4 +125,3 @@ public class GildedRoseTests
         normalItem.Quality.Should().Be(expectedQuality);
     }
 }
-

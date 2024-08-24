@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using GildedRose.Extensions;
+using GildedRose.Models;
+using System.Collections.Generic;
 
-namespace GildedRoseKata;
+namespace GildedRose.Services;
 
-public class GildedRose
+public class GildedRoseService
 {
     private readonly ICollection<Item> _items;
 
-    public GildedRose(ICollection<Item> items)
+    public GildedRoseService(ICollection<Item> items)
     {
         _items = items;
     }
@@ -18,45 +20,41 @@ public class GildedRose
             switch (item.Name)
             {
                 case "Aged Brie":
-                    if (item.Quality < 50) item.Quality++;
+                    item.AdjustQuality(1);
                     break;
                 case "Sulfuras, Hand of Ragnaros":
                     continue;
                 case "Backstage passes to a TAFKAL80ETC concert":
-                    if (item.Quality < 50) item.Quality++;
-                    if (item.SellIn < 11 && item.Quality < 50) item.Quality++;
-                    if (item.SellIn < 6 && item.Quality < 50) item.Quality++;
+                    item.AdjustQuality(1);
+                    if (item.SellIn < 11) item.AdjustQuality(1);
+                    if (item.SellIn < 6) item.AdjustQuality(1);
                     break;
                 case "Conjured Mana Cake":
-                    if (item.Quality > 0) item.Quality--;
-                    if (item.Quality > 0) item.Quality--;
+                    item.AdjustQuality(-2);
                     break;
                 default:
-                    if (item.Quality > 0) item.Quality--;
+                    item.AdjustQuality(-1);
                     break;
             }
 
             if (item.Name != "Sulfuras, Hand of Ragnaros")
-            {
-                item.SellIn--;
-            }
+                item.ReduceSellIn();
 
             switch (item.Name)
             {
                 case "Aged Brie":
-                    if (item.SellIn < 0 && item.Quality < 50) item.Quality++;
+                    if (item.IsExpired()) item.AdjustQuality(1);
                     break;
                 case "Sulfuras, Hand of Ragnaros":
                     continue;
                 case "Backstage passes to a TAFKAL80ETC concert":
-                    if (item.SellIn < 0) item.Quality -= item.Quality;
+                    if (item.IsExpired()) item.AdjustQuality(-item.Quality);
                     break;
                 case "Conjured Mana Cake":
-                    if (item.SellIn < 0 && item.Quality > 0) item.Quality--;
-                    if (item.SellIn < 0 && item.Quality > 0) item.Quality--;
+                    if (item.IsExpired()) item.AdjustQuality(-2);
                     break;
                 default:
-                    if (item.SellIn < 0 && item.Quality > 0) item.Quality--;
+                    if (item.IsExpired()) item.AdjustQuality(-1);
                     break;
             }
         }
