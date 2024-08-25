@@ -19,21 +19,32 @@ public class Program
         // Get days from arguments or default to 30
         int days = args.Length > 0 && int.TryParse(args[0], out var result) ? result : Constants.DefaultDays;
 
-        // Run GildedRoseService
+        // Get GildedRoseService instance
         var gildedRoseService = serviceProvider.GetService<IGildedRoseService>();
-        ICollection<Item> items = new List<Item>
-        {
-            new Item { Name = Constants.DexterityVest, SellIn = 10, Quality = 20 },
-            new Item { Name = Constants.AgedBrie, SellIn = 2, Quality = 0 },
-            new Item { Name = Constants.ElixirOfTheMongoose, SellIn = 5, Quality = 7 },
-            new Item { Name = Constants.Sulfuras, SellIn = 0, Quality = 80 },
-            new Item { Name = Constants.Sulfuras, SellIn = -1, Quality = 80 },
-            new Item { Name = Constants.BackstagePass, SellIn = 15, Quality = 20 },
-            new Item { Name = Constants.BackstagePass, SellIn = 10, Quality = 49 },
-            new Item { Name = Constants.BackstagePass, SellIn = 5, Quality = 49 },
-            new Item { Name = Constants.ConjuredManaCake, SellIn = 3, Quality = 6 }
-        };
+        ICollection<Item> items = InitializeItems();
 
+        // Run the day simulation
+        SimulateDays(gildedRoseService, items, days);
+    }
+
+    private static ICollection<Item> InitializeItems()
+    {
+        return new List<Item>
+            {
+                new Item { Name = Constants.DexterityVest, SellIn = 10, Quality = 20 },
+                new Item { Name = Constants.AgedBrie, SellIn = 2, Quality = 0 },
+                new Item { Name = Constants.ElixirOfTheMongoose, SellIn = 5, Quality = 7 },
+                new Item { Name = Constants.Sulfuras, SellIn = 0, Quality = 80 },
+                new Item { Name = Constants.Sulfuras, SellIn = -1, Quality = 80 },
+                new Item { Name = Constants.BackstagePass, SellIn = 15, Quality = 20 },
+                new Item { Name = Constants.BackstagePass, SellIn = 10, Quality = 49 },
+                new Item { Name = Constants.BackstagePass, SellIn = 5, Quality = 49 },
+                new Item { Name = Constants.ConjuredManaCake, SellIn = 3, Quality = 6 }
+            };
+    }
+
+    private static void SimulateDays(IGildedRoseService gildedRoseService, ICollection<Item> items, int days)
+    {
         Console.WriteLine("OMGHAI!");
 
         for (var i = 0; i <= days; i++)
@@ -42,9 +53,7 @@ public class Program
             Console.WriteLine("name, sellIn, quality");
 
             foreach (var item in items)
-            {
-                Console.WriteLine($"{item.Name}, {item.SellIn}, {item.Quality}");
-            }
+                Console.WriteLine(item);
 
             Console.WriteLine("");
 
@@ -52,3 +61,4 @@ public class Program
         }
     }
 }
+
