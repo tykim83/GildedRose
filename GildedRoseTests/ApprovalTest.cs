@@ -1,6 +1,4 @@
-﻿
-using GildedRoseKata;
-
+﻿using GildedRoseKata;
 using System;
 using System.IO;
 using System.Text;
@@ -15,13 +13,16 @@ public class ApprovalTest
     [Fact]
     public Task ThirtyDays()
     {
-        var fakeoutput = new StringBuilder();
-        Console.SetOut(new StringWriter(fakeoutput));
+        // Arrange
+        var fakeOutput = new StringBuilder();
+        Console.SetOut(new StringWriter(fakeOutput));
         Console.SetIn(new StringReader("a\n"));
 
-        Program.Main(new string[] { "30" });
-        var output = fakeoutput.ToString();
+        // Act
+        Program.Main(["30"]);
 
+        // Assert
+        var output = fakeOutput.ToString();
         return Verifier.Verify(output);
     }
 }

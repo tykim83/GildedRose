@@ -8,7 +8,6 @@ namespace GildedRoseTests.Services;
 
 public class GildedRoseTests
 {
-
     [Theory]
     [InlineData("Aged Brie", 10, 40, 9, 41)]
     [InlineData("Aged Brie", 10, 50, 9, 50)] // Quality shouldn't go above 50
@@ -22,14 +21,15 @@ public class GildedRoseTests
     {
         // Arrange
         var agedBrie = new Item { Name = name, SellIn = sellIn, Quality = quality };
-        var app = new GildedRoseService(new List<Item> { agedBrie });
+        var gildedRoseService = new GildedRoseService();
 
         // Act
-        app.UpdateQuality();
+        var updatedItems = gildedRoseService.UpdateQuality(new List<Item> { agedBrie });
 
         // Assert
-        agedBrie.SellIn.Should().Be(expectedSellIn);
-        agedBrie.Quality.Should().Be(expectedQuality);
+        var updatedItem = updatedItems.Should().ContainSingle().Subject;
+        updatedItem.SellIn.Should().Be(expectedSellIn);
+        updatedItem.Quality.Should().Be(expectedQuality);
     }
 
     [Theory]
@@ -44,14 +44,15 @@ public class GildedRoseTests
     {
         // Arrange
         var sulfuras = new Item { Name = name, SellIn = sellIn, Quality = quality };
-        var app = new GildedRoseService(new List<Item> { sulfuras });
+        var gildedRoseService = new GildedRoseService();
 
         // Act
-        app.UpdateQuality();
+        var updatedItems = gildedRoseService.UpdateQuality(new List<Item> { sulfuras });
 
         // Assert
-        sulfuras.SellIn.Should().Be(expectedSellIn);
-        sulfuras.Quality.Should().Be(expectedQuality);
+        var updatedItem = updatedItems.Should().ContainSingle().Subject;
+        updatedItem.SellIn.Should().Be(expectedSellIn);
+        updatedItem.Quality.Should().Be(expectedQuality);
     }
 
     [Theory]
@@ -69,14 +70,15 @@ public class GildedRoseTests
     {
         // Arrange
         var backstagePass = new Item { Name = name, SellIn = sellIn, Quality = quality };
-        var app = new GildedRoseService(new List<Item> { backstagePass });
+        var gildedRoseService = new GildedRoseService();
 
         // Act
-        app.UpdateQuality();
+        var updatedItems = gildedRoseService.UpdateQuality(new List<Item> { backstagePass });
 
         // Assert
-        backstagePass.SellIn.Should().Be(expectedSellIn);
-        backstagePass.Quality.Should().Be(expectedQuality);
+        var updatedItem = updatedItems.Should().ContainSingle().Subject;
+        updatedItem.SellIn.Should().Be(expectedSellIn);
+        updatedItem.Quality.Should().Be(expectedQuality);
     }
 
     [Theory]
@@ -92,14 +94,15 @@ public class GildedRoseTests
     {
         // Arrange
         var conjuredItem = new Item { Name = name, SellIn = sellIn, Quality = quality };
-        var app = new GildedRoseService(new List<Item> { conjuredItem });
+        var gildedRoseService = new GildedRoseService();
 
         // Act
-        app.UpdateQuality();
+        var updatedItems = gildedRoseService.UpdateQuality(new List<Item> { conjuredItem });
 
         // Assert
-        conjuredItem.SellIn.Should().Be(expectedSellIn);
-        conjuredItem.Quality.Should().Be(expectedQuality);
+        var updatedItem = updatedItems.Should().ContainSingle().Subject;
+        updatedItem.SellIn.Should().Be(expectedSellIn);
+        updatedItem.Quality.Should().Be(expectedQuality);
     }
 
     [Theory]
@@ -115,13 +118,14 @@ public class GildedRoseTests
     {
         // Arrange
         var normalItem = new Item { Name = name, SellIn = sellIn, Quality = quality };
-        var app = new GildedRoseService(new List<Item> { normalItem });
+        var gildedRoseService = new GildedRoseService();
 
         // Act
-        app.UpdateQuality();
+        var updatedItems = gildedRoseService.UpdateQuality(new List<Item> { normalItem });
 
         // Assert
-        normalItem.SellIn.Should().Be(expectedSellIn);
-        normalItem.Quality.Should().Be(expectedQuality);
+        var updatedItem = updatedItems.Should().ContainSingle().Subject;
+        updatedItem.SellIn.Should().Be(expectedSellIn);
+        updatedItem.Quality.Should().Be(expectedQuality);
     }
 }
