@@ -1,5 +1,6 @@
 ﻿using GildedRose.Extensions;
 using GildedRose.Models;
+using GildedRose.Shared;
 using System.Collections.Generic;
 
 namespace GildedRose.Services;
@@ -13,7 +14,7 @@ public class GildedRoseService : IGildedRoseService
         foreach (Item item in items)
         {
             // Skip when Item is Sulfuras, Hand of Ragnaros
-            if (item.Name == "Sulfuras, Hand of Ragnaros")
+            if (item.Name == Constants.Sulfuras)
             {
                 updatedItems.Add(item);
                 continue;
@@ -25,9 +26,9 @@ public class GildedRoseService : IGildedRoseService
             // Calculate the change in Quality
             int qualityChange = item.Name switch
             {
-                "Aged Brie" => item.IsExpired() ? 2 : 1,
-                "Backstage passes to a TAFKAL80ETC concert" => CalculateBackstagePassQualityChange(item),
-                "Conjured Mana Cake" => item.IsExpired() ? -4 : -2,
+                Constants.AgedBrie => item.IsExpired() ? 2 : 1,
+                Constants.BackstagePass => CalculateBackstagePassQualityChange(item),
+                Constants.ConjuredManaCake => item.IsExpired() ? -4 : -2,
                 _ => item.IsExpired() ? -2 : -1
             };
 
