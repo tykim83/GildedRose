@@ -1,5 +1,4 @@
-﻿using GildedRose.Factories;
-using GildedRose.Models;
+﻿using GildedRose.Models;
 using GildedRose.Services;
 using GildedRose.Shared;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +14,6 @@ public class Program
         // Set up dependency injection
         var serviceProvider = new ServiceCollection()
             .AddTransient<IGildedRoseService, GildedRoseService>()
-            .AddTransient<IItemUpdaterFactory, ItemUpdaterFactory>()
             .BuildServiceProvider();
 
         // Get days from arguments or default to 30

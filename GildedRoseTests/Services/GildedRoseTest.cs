@@ -1,9 +1,6 @@
 ﻿using FluentAssertions;
-using GildedRose.Factories;
 using GildedRose.Models;
 using GildedRose.Services;
-using GildedRose.Updaters;
-using Moq;
 using System.Collections.Generic;
 using Xunit;
 
@@ -11,31 +8,34 @@ namespace GildedRoseTests.Services;
 
 public class GildedRoseTests
 {
-    [Theory]
-    [InlineData("Aged Brie")]
-    [InlineData("Backstage passes to a TAFKAL80ETC concert")]
-    [InlineData("Conjured Mana Cake")]
-    [InlineData("Normal Item")]
-    [InlineData("Sulfuras, Hand of Ragnaros")]
-    public void GIVEN_UpdateQuality_WHEN_CalledWithVariousItems_THEN_ShouldCallAppropriateUpdater(string itemName)
+    [Fact]
+    public void GIVEN_Items_WHEN_UpdateQuality_THEN_ShouldUpdateAllItemsCorrectly()
     {
         // Arrange
-        var item = new Item(itemName, 10, 20);
+        var items = new List<Item>
+            {
+                new Item("Aged Brie", 10, 40),
+                new Item("Backstage passes to a TAFKAL80ETC concert", 5, 20),
+                new Item("Conjured Mana Cake", 3, 6),
+                new Item("Sulfuras, Hand of Ragnaros", 0, 80),
+                new Item("Normal Item", 0, 10)
+            };
 
-        var mockFactory = new Mock<IItemUpdaterFactory>();
-        var mockUpdater = new Mock<IItemUpdater>();
-        mockFactory.Setup(f => f.CreateUpdater(It.IsAny<Item>())).Returns(mockUpdater.Object);
-        mockUpdater.Setup(c => c.UpdateItem(item)).Returns(item);
+        var expectedItems = new List<Item>
+            {
+                new Item("Aged Brie", 9, 41), // Aged Brie: SellIn - 1, Quality + 1
+                new Item("Backstage passes to a TAFKAL80ETC concert", 4, 23), // Backstage Passes: SellIn - 1, Quality + 3
+                new Item("Conjured Mana Cake", 2, 4), // Conjured Item: SellIn - 1, Quality - 2
+                new Item("Sulfuras, Hand of Ragnaros", 0, 80), // Sulfuras: No change
+                new Item("Normal Item", -1, 8) // Default Item: SellIn - 1, Quality - 2
+            };
 
-        var gildedRoseService = new GildedRoseService(mockFactory.Object);
+        var service = new GildedRoseService();
 
         // Act
-        var updatedItems = gildedRoseService.UpdateQuality(new List<Item> { item });
+        var updatedItems = service.UpdateQuality(items);
 
         // Assert
-        mockFactory.Verify(f => f.CreateUpdater(It.Is<Item>(i => i.Name == itemName)), Times.Once);
-        mockUpdater.Verify(u => u.UpdateItem(It.Is<Item>(i => i.Name == itemName)), Times.Once);
-        var updatedItem = updatedItems.Should().ContainSingle().Subject;
-        updatedItem.Should().Be(item);
+        updatedItems.Should().BeEquivalentTo(expectedItems);
     }
 }

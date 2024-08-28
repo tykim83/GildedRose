@@ -1,13 +1,27 @@
-﻿using System;
+﻿using GildedRose.Updaters;
 
 namespace GildedRose.Models;
 
 public record Item(string Name, int SellIn, int Quality)
 {
-    public Item DecreaseSellIn() => this with { SellIn = SellIn - 1 };
+    public Item UpdateQuality()
+    {
+        var updater = Name switch
+        {
+            "Aged Brie" => ItemUpdaters.AgedBrieUpdater,
+            "Backstage passes to a TAFKAL80ETC concert" => ItemUpdaters.BackstagePassUpdater,
+            "Conjured Mana Cake" => ItemUpdaters.ConjuredItemUpdater,
+            "Sulfuras, Hand of Ragnaros" => ItemUpdaters.SulfurasUpdater,
+            _ => ItemUpdaters.DefaultItemUpdater
+        };
 
-    public Item AdjustQuality(int qualityChange) =>
-        this with { Quality = Math.Clamp(Quality + qualityChange, 0, 50) };
+        return updater(this);
+    }
+
+    public Item DecreaseSellIn() =>
+        Name == "Sulfuras, Hand of Ragnaros"
+            ? this
+            : this with { SellIn = SellIn - 1 };
 
     public bool IsExpired() => SellIn < 0;
 
