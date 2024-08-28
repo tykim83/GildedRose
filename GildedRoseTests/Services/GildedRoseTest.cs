@@ -20,7 +20,7 @@ public class GildedRoseTests
     public void GIVEN_UpdateQuality_WHEN_CalledWithVariousItems_THEN_ShouldCallAppropriateUpdater(string itemName)
     {
         // Arrange
-        var item = new Item { Name = itemName, SellIn = 10, Quality = 20 };
+        var item = new Item(itemName, 10, 20);
 
         var mockFactory = new Mock<IItemUpdaterFactory>();
         var mockUpdater = new Mock<IItemUpdater>();

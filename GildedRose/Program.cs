@@ -1,5 +1,4 @@
-﻿using GildedRose.Extensions;
-using GildedRose.Factories;
+﻿using GildedRose.Factories;
 using GildedRose.Models;
 using GildedRose.Services;
 using GildedRose.Shared;
@@ -33,17 +32,17 @@ public class Program
     private static ICollection<Item> InitializeItems()
     {
         return new List<Item>
-            {
-                new Item { Name = Constants.DexterityVest, SellIn = 10, Quality = 20 },
-                new Item { Name = Constants.AgedBrie, SellIn = 2, Quality = 0 },
-                new Item { Name = Constants.ElixirOfTheMongoose, SellIn = 5, Quality = 7 },
-                new Item { Name = Constants.Sulfuras, SellIn = 0, Quality = 80 },
-                new Item { Name = Constants.Sulfuras, SellIn = -1, Quality = 80 },
-                new Item { Name = Constants.BackstagePass, SellIn = 15, Quality = 20 },
-                new Item { Name = Constants.BackstagePass, SellIn = 10, Quality = 49 },
-                new Item { Name = Constants.BackstagePass, SellIn = 5, Quality = 49 },
-                new Item { Name = Constants.ConjuredManaCake, SellIn = 3, Quality = 6 }
-            };
+    {
+        new Item(Constants.DexterityVest, 10, 20),
+        new Item(Constants.AgedBrie, 2, 0),
+        new Item(Constants.ElixirOfTheMongoose, 5, 7),
+        new Item(Constants.Sulfuras, 0, 80),
+        new Item(Constants.Sulfuras, -1, 80),
+        new Item(Constants.BackstagePass, 15, 20),
+        new Item(Constants.BackstagePass, 10, 49),
+        new Item(Constants.BackstagePass, 5, 49),
+        new Item(Constants.ConjuredManaCake, 3, 6)
+    };
     }
 
     private static void SimulateDays(IGildedRoseService gildedRoseService, ICollection<Item> items, int days)

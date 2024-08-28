@@ -19,7 +19,7 @@ public class ItemUpdaterFactoryTests
     {
         // Arrange
         var factory = new ItemUpdaterFactory();
-        var item = new Item { Name = itemName };
+        var item = new Item(itemName, 0, 0);
 
         // Act
         var updater = factory.CreateUpdater(item);
