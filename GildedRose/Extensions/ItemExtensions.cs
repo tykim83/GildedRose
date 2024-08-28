@@ -11,4 +11,6 @@ public static class ItemExtensions
     public static void AdjustQuality(this Item item, int amount) => item.Quality = Math.Clamp(item.Quality + amount, Constants.MinQuality, Constants.MaxQuality);
 
     public static bool IsExpired(this Item item) => item.SellIn < 0;
+
+    public static string Display(this Item item) => $"{item.Name}, {item.SellIn}, {item.Quality}";
 }

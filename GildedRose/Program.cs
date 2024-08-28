@@ -1,4 +1,5 @@
-﻿using GildedRose.Models;
+﻿using GildedRose.Extensions;
+using GildedRose.Models;
 using GildedRose.Services;
 using GildedRose.Shared;
 using Microsoft.Extensions.DependencyInjection;
@@ -53,7 +54,7 @@ public class Program
             Console.WriteLine("name, sellIn, quality");
 
             foreach (var item in items)
-                Console.WriteLine(item);
+                Console.WriteLine(item.Display());
 
             Console.WriteLine("");
 

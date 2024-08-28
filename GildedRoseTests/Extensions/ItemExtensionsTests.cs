@@ -57,4 +57,20 @@ public class ItemExtensionsTests
         // Assert
         result.Should().Be(isExpired);
     }
+
+    [Theory]
+    [InlineData("Test Item", 10, 20, "Test Item, 10, 20")]
+    [InlineData("Aged Brie", 0, 30, "Aged Brie, 0, 30")]
+    [InlineData("Sulfuras, Hand of Ragnaros", -1, 80, "Sulfuras, Hand of Ragnaros, -1, 80")]
+    public void GIVEN_Display_WHEN_Called_THEN_ShouldReturnFormattedString(string name, int sellIn, int quality, string expectedOutput)
+    {
+        // Arrange
+        var item = new Item { Name = name, SellIn = sellIn, Quality = quality };
+
+        // Act
+        var result = item.Display();
+
+        // Assert
+        result.Should().Be(expectedOutput);
+    }
 }
