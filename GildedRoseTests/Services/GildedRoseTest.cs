@@ -1,6 +1,8 @@
 ﻿using FluentAssertions;
+using GildedRose.Factories;
 using GildedRose.Models;
 using GildedRose.Services;
+using Moq;
 using System.Collections.Generic;
 using Xunit;
 
@@ -21,7 +23,8 @@ public class GildedRoseTests
     {
         // Arrange
         var agedBrie = new Item { Name = name, SellIn = sellIn, Quality = quality };
-        var gildedRoseService = new GildedRoseService();
+        var mockFactory = new Mock<IItemUpdaterFactory>();
+        var gildedRoseService = new GildedRoseService(mockFactory.Object);
 
         // Act
         var updatedItems = gildedRoseService.UpdateQuality(new List<Item> { agedBrie });
@@ -44,7 +47,8 @@ public class GildedRoseTests
     {
         // Arrange
         var sulfuras = new Item { Name = name, SellIn = sellIn, Quality = quality };
-        var gildedRoseService = new GildedRoseService();
+        var mockFactory = new Mock<IItemUpdaterFactory>();
+        var gildedRoseService = new GildedRoseService(mockFactory.Object);
 
         // Act
         var updatedItems = gildedRoseService.UpdateQuality(new List<Item> { sulfuras });
@@ -70,7 +74,8 @@ public class GildedRoseTests
     {
         // Arrange
         var backstagePass = new Item { Name = name, SellIn = sellIn, Quality = quality };
-        var gildedRoseService = new GildedRoseService();
+        var mockFactory = new Mock<IItemUpdaterFactory>();
+        var gildedRoseService = new GildedRoseService(mockFactory.Object);
 
         // Act
         var updatedItems = gildedRoseService.UpdateQuality(new List<Item> { backstagePass });
@@ -94,7 +99,8 @@ public class GildedRoseTests
     {
         // Arrange
         var conjuredItem = new Item { Name = name, SellIn = sellIn, Quality = quality };
-        var gildedRoseService = new GildedRoseService();
+        var mockFactory = new Mock<IItemUpdaterFactory>();
+        var gildedRoseService = new GildedRoseService(mockFactory.Object);
 
         // Act
         var updatedItems = gildedRoseService.UpdateQuality(new List<Item> { conjuredItem });
@@ -118,7 +124,8 @@ public class GildedRoseTests
     {
         // Arrange
         var normalItem = new Item { Name = name, SellIn = sellIn, Quality = quality };
-        var gildedRoseService = new GildedRoseService();
+        var mockFactory = new Mock<IItemUpdaterFactory>();
+        var gildedRoseService = new GildedRoseService(mockFactory.Object);
 
         // Act
         var updatedItems = gildedRoseService.UpdateQuality(new List<Item> { normalItem });
