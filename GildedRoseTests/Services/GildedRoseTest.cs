@@ -1,4 +1,5 @@
-﻿using GildedRose.Factories;
+﻿using FluentAssertions;
+using GildedRose.Factories;
 using GildedRose.Models;
 using GildedRose.Services;
 using GildedRose.Updaters;
@@ -20,12 +21,11 @@ public class GildedRoseTests
     {
         // Arrange
         var item = new Item { Name = itemName, SellIn = 10, Quality = 20 };
+
         var mockFactory = new Mock<IItemUpdaterFactory>();
         var mockUpdater = new Mock<IItemUpdater>();
-
-        // Setup the factory to return the mock updater for any item
-        mockFactory.Setup(f => f.CreateUpdater(It.IsAny<Item>()))
-                   .Returns(mockUpdater.Object);
+        mockFactory.Setup(f => f.CreateUpdater(It.IsAny<Item>())).Returns(mockUpdater.Object);
+        mockUpdater.Setup(c => c.UpdateItem(item)).Returns(item);
 
         var gildedRoseService = new GildedRoseService(mockFactory.Object);
 
@@ -35,7 +35,7 @@ public class GildedRoseTests
         // Assert
         mockFactory.Verify(f => f.CreateUpdater(It.Is<Item>(i => i.Name == itemName)), Times.Once);
         mockUpdater.Verify(u => u.UpdateItem(It.Is<Item>(i => i.Name == itemName)), Times.Once);
-        //var updatedItem = updatedItems.Should().ContainSingle().Subject;
-        //updatedItem.Should().Be(item);
+        var updatedItem = updatedItems.Should().ContainSingle().Subject;
+        updatedItem.Should().Be(item);
     }
 }
